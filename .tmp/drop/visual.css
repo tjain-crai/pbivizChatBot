@@ -4,9 +4,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0 10px;
+  padding: 20px;
+  /* Increased padding */
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  height: 95vh;
+  font-family: 'Arial', sans-serif;
+  /* Change font */
 }
 .messages {
   display: flex;
@@ -14,35 +17,85 @@
   height: 80%;
   overflow-y: auto;
   padding: 10px;
+}
+.message {
+  background-color: #f0f0f0;
+  /* Light gray background */
+  padding: 10px;
   border-radius: 10px;
-  margin-bottom: 5px;
+  /* Rounded corners */
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Shadow effect */
+  display: flex;
 }
 .user {
   align-self: flex-end;
-  background-color: lightskyblue;
+  background-color: #007bff;
+  /* Blue color for user messages */
+  color: white;
+  /* White text color */
 }
 .bot {
   align-self: flex-start;
-  background-color: lightgray;
+  background-color: #f0f0f0;
+  /* Light gray color for bot messages */
+  color: #333;
+  /* Darker text color */
+}
+.bot-message {
+  display: flex;
+  align-items: center;
+}
+.bot-logo {
+  width: 20px;
+  /* Adjust size as needed */
+  height: auto;
+  /* Maintain aspect ratio */
+  margin-right: 1px;
+  /* Add spacing between logo and text */
+}
+.openai-logo {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjI1MDAiIHZpZXdCb3g9Ii0xIC0uMSA5NDkuMSA5NTkuOCIgd2lkdGg9IjI0NzQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0ibTkyNS44IDQ1Ni4zYzEwLjQgMjMuMiAxNyA0OCAxOS43IDczLjMgMi42IDI1LjMgMS4zIDUwLjktNC4xIDc1LjgtNS4zIDI0LjktMTQuNSA0OC44LTI3LjMgNzAuOC04LjQgMTQuNy0xOC4zIDI4LjUtMjkuNyA0MS4yLTExLjMgMTIuNi0yMy45IDI0LTM3LjYgMzQtMTMuOCAxMC0yOC41IDE4LjQtNDQuMSAyNS4zLTE1LjUgNi44LTMxLjcgMTItNDguMyAxNS40LTcuOCAyNC4yLTE5LjQgNDcuMS0zNC40IDY3LjctMTQuOSAyMC42LTMzIDM4LjctNTMuNiA1My42LTIwLjYgMTUtNDMuNCAyNi42LTY3LjYgMzQuNC0yNC4yIDcuOS00OS41IDExLjgtNzUgMTEuOC0xNi45LjEtMzMuOS0xLjctNTAuNS01LjEtMTYuNS0zLjUtMzIuNy04LjgtNDguMi0xNS43cy0zMC4yLTE1LjUtNDMuOS0yNS41Yy0xMy42LTEwLTI2LjItMjEuNS0zNy40LTM0LjItMjUgNS40LTUwLjYgNi43LTc1LjkgNC4xLTI1LjMtMi43LTUwLjEtOS4zLTczLjQtMTkuNy0yMy4yLTEwLjMtNDQuNy0yNC4zLTYzLjYtNDEuNHMtMzUtMzcuMS00Ny43LTU5LjFjLTguNS0xNC43LTE1LjUtMzAuMi0yMC44LTQ2LjNzLTguOC0zMi43LTEwLjYtNDkuNmMtMS44LTE2LjgtMS43LTMzLjguMS01MC43IDEuOC0xNi44IDUuNS0zMy40IDEwLjgtNDkuNS0xNy0xOC45LTMxLTQwLjQtNDEuNC02My42LTEwLjMtMjMuMy0xNy00OC0xOS42LTczLjMtMi43LTI1LjMtMS4zLTUwLjkgNC03NS44czE0LjUtNDguOCAyNy4zLTcwLjhjOC40LTE0LjcgMTguMy0yOC42IDI5LjYtNDEuMnMyNC0yNCAzNy43LTM0IDI4LjUtMTguNSA0NC0yNS4zYzE1LjYtNi45IDMxLjgtMTIgNDguNC0xNS40IDcuOC0yNC4zIDE5LjQtNDcuMSAzNC4zLTY3LjcgMTUtMjAuNiAzMy4xLTM4LjcgNTMuNy01My43IDIwLjYtMTQuOSA0My40LTI2LjUgNjcuNi0zNC40IDI0LjItNy44IDQ5LjUtMTEuOCA3NS0xMS43IDE2LjktLjEgMzMuOSAxLjYgNTAuNSA1LjFzMzIuOCA4LjcgNDguMyAxNS42YzE1LjUgNyAzMC4yIDE1LjUgNDMuOSAyNS41IDEzLjcgMTAuMSAyNi4zIDIxLjUgMzcuNSAzNC4yIDI0LjktNS4zIDUwLjUtNi42IDc1LjgtNHM1MCA5LjMgNzMuMyAxOS42YzIzLjIgMTAuNCA0NC43IDI0LjMgNjMuNiA0MS40IDE4LjkgMTcgMzUgMzYuOSA0Ny43IDU5IDguNSAxNC42IDE1LjUgMzAuMSAyMC44IDQ2LjMgNS4zIDE2LjEgOC45IDMyLjcgMTAuNiA0OS42IDEuOCAxNi45IDEuOCAzMy45LS4xIDUwLjgtMS44IDE2LjktNS41IDMzLjUtMTAuOCA0OS42IDE3LjEgMTguOSAzMSA0MC4zIDQxLjQgNjMuNnptLTMzMy4yIDQyNi45YzIxLjgtOSA0MS42LTIyLjMgNTguMy0zOXMzMC0zNi41IDM5LTU4LjRjOS0yMS44IDEzLjctNDUuMiAxMy43LTY4Ljh2LTIyM3EtLjEtLjMtLjItLjctLjEtLjMtLjMtLjYtLjItLjMtLjUtLjUtLjMtLjMtLjYtLjRsLTgwLjctNDYuNnYyNjkuNGMwIDIuNy0uNCA1LjUtMS4xIDguMS0uNyAyLjctMS43IDUuMi0zLjEgNy42cy0zIDQuNi01IDYuNWEzMi4xIDMyLjEgMCAwIDEgLTYuNSA1bC0xOTEuMSAxMTAuM2MtMS42IDEtNC4zIDIuNC01LjcgMy4yIDcuOSA2LjcgMTYuNSAxMi42IDI1LjUgMTcuOCA5LjEgNS4yIDE4LjUgOS42IDI4LjMgMTMuMiA5LjggMy41IDE5LjkgNi4yIDMwLjEgOCAxMC4zIDEuOCAyMC43IDIuNyAzMS4xIDIuNyAyMy42IDAgNDctNC43IDY4LjgtMTMuOHptLTQ1NS4xLTE1MS40YzExLjkgMjAuNSAyNy42IDM4LjMgNDYuMyA1Mi43IDE4LjggMTQuNCA0MC4xIDI0LjkgNjIuOSAzMXM0Ni42IDcuNyA3MCA0LjYgNDUuOS0xMC43IDY2LjQtMjIuNWwxOTMuMi0xMTEuNS41LS41cS4yLS4yLjMtLjYuMi0uMy4zLS42di05NGwtMjMzLjIgMTM0LjljLTIuNCAxLjQtNC45IDIuNC03LjUgMy4yLTIuNy43LTUuNCAxLTguMiAxLTIuNyAwLTUuNC0uMy04LjEtMS0yLjYtLjgtNS4yLTEuOC03LjYtMy4ybC0xOTEuMS0xMTAuNGMtMS43LTEtNC4yLTIuNS01LjYtMy40LTEuOCAxMC4zLTIuNyAyMC43LTIuNyAzMS4xczEgMjAuOCAyLjggMzEuMWMxLjggMTAuMiA0LjYgMjAuMyA4LjEgMzAuMSAzLjYgOS44IDggMTkuMiAxMy4yIDI4LjJ6bS01MC4yLTQxN2MtMTEuOCAyMC41LTE5LjQgNDMuMS0yMi41IDY2LjVzLTEuNSA0Ny4xIDQuNiA3MGM2LjEgMjIuOCAxNi42IDQ0LjEgMzEgNjIuOSAxNC40IDE4LjcgMzIuMyAzNC40IDUyLjcgNDYuMmwxOTMuMSAxMTEuNnEuMy4xLjcuMmguN3EuNCAwIC43LS4yLjMtLjEuNi0uM2w4MS00Ni44LTIzMy4yLTEzNC42Yy0yLjMtMS40LTQuNS0zLjEtNi41LTVhMzIuMSAzMi4xIDAgMCAxIC01LTYuNWMtMS4zLTIuNC0yLjQtNC45LTMuMS03LjYtLjctMi42LTEuMS01LjMtMS04LjF2LTIyNy4xYy05LjggMy42LTE5LjMgOC0yOC4zIDEzLjItOSA1LjMtMTcuNSAxMS4zLTI1LjUgMTgtNy45IDYuNy0xNS4zIDE0LjEtMjIgMjIuMS02LjcgNy45LTEyLjYgMTYuNS0xNy44IDI1LjV6bTY2My4zIDE1NC40YzIuNCAxLjQgNC42IDMgNi42IDUgMS45IDEuOSAzLjYgNC4xIDUgNi41IDEuMyAyLjQgMi40IDUgMy4xIDcuNi42IDIuNyAxIDUuNC45IDguMnYyMjcuMWMzMi4xLTExLjggNjAuMS0zMi41IDgwLjgtNTkuNyAyMC44LTI3LjIgMzMuMy01OS43IDM2LjItOTMuN3MtMy45LTY4LjItMTkuNy05OC41LTM5LjktNTUuNS02OS41LTcyLjVsLTE5My4xLTExMS42cS0uMy0uMS0uNy0uMmgtLjdxLS4zLjEtLjcuMi0uMy4xLS42LjNsLTgwLjYgNDYuNiAyMzMuMiAxMzQuN3ptODAuNS0xMjFoLS4xdi4xem0tLjEtLjFjNS44LTMzLjYgMS45LTY4LjItMTEuMy05OS43LTEzLjEtMzEuNS0zNS01OC42LTYzLTc4LjItMjgtMTkuNS02MS0zMC43LTk1LjEtMzIuMi0zNC4yLTEuNC02OCA2LjktOTcuNiAyMy45bC0xOTMuMSAxMTEuNXEtLjMuMi0uNS41bC0uNC42cS0uMS4zLS4yLjctLjEuMy0uMS43djkzLjJsMjMzLjItMTM0LjdjMi40LTEuNCA1LTIuNCA3LjYtMy4yIDIuNy0uNyA1LjQtMSA4LjEtMSAyLjggMCA1LjUuMyA4LjIgMSAyLjYuOCA1LjEgMS44IDcuNSAzLjJsMTkxLjEgMTEwLjRjMS43IDEgNC4yIDIuNCA1LjYgMy4zem0tNTA1LjMtMTAzLjJjMC0yLjcuNC01LjQgMS4xLTguMS43LTIuNiAxLjctNS4yIDMuMS03LjYgMS40LTIuMyAzLTQuNSA1LTYuNSAxLjktMS45IDQuMS0zLjYgNi41LTQuOWwxOTEuMS0xMTAuM2MxLjgtMS4xIDQuMy0yLjUgNS43LTMuMi0yNi4yLTIxLjktNTguMi0zNS45LTkyLjEtNDAuMi0zMy45LTQuNC02OC4zIDEtOTkuMiAxNS41LTMxIDE0LjUtNTcuMiAzNy42LTc1LjUgNjYuNC0xOC4zIDI4LjktMjggNjIuMy0yOCA5Ni41djIyM3EuMS40LjIuNy4xLjMuMy42LjIuMy41LjYuMi4yLjYuNGw4MC43IDQ2LjZ6bTQzLjggMjk0LjcgMTAzLjkgNjAgMTAzLjktNjB2LTExOS45bC0xMDMuOC02MC0xMDMuOSA2MHoiLz48L3N2Zz4=);
+  /* Path to the image file */
+  background-size: cover;
+  /* Adjust as needed */
+  width: 30px;
+  /* Adjust size as needed */
+  height: 30px;
+  /* Adjust size as needed */
+  margin-right: 10px;
 }
 .input-container {
   display: flex;
   align-items: center;
   height: 10%;
+  margin-top: 20px;
+  /* Add some spacing between messages and input */
 }
 .input {
   flex: 1;
   padding: 10px;
-  border-radius: 10px;
-  border: 1px solid lightgray;
-  margin-right: 10px;
+  border-radius: 20px;
+  /* Rounded input */
+  border: 1px solid #ddd;
+  /* Light gray border */
+  max-width: 80%;
+  /* Limit maximum width to 80% of container */
 }
 .send-button {
-  padding: 10px;
-  border-radius: 10px;
-  background-color: lightskyblue;
+  padding: 10px 20px;
+  border-radius: 20px;
+  background-color: #007bff;
+  /* Blue color for button */
   border: none;
   cursor: pointer;
+  color: white;
+  font-weight: bold;
+  margin-left: 10px;
+  /* Add some spacing between input and button */
+  max-width: 20%;
+  /* Limit maximum width to 20% of container */
 }
 
 

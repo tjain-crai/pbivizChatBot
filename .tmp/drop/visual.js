@@ -18,7 +18,7 @@ class Chatbot extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
         super(props);
         this.state = {
             messages: [
-                { user: 'bot', text: 'Hello! I am a chatbot. Ask me anything related to Power BI.' }
+                { user: 'bot', text: 'Hello! I am your Viz chatbot. Ask me anything related to the data.' }
             ],
             inputValue: '',
         };
@@ -28,9 +28,10 @@ class Chatbot extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
     sendMessage = async () => {
         // Add your OpenAI API integration here
         // For now, let's just simulate a response
-        const res = await fetch('https://mock-api.com/messages', {
+        const res = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',
+                'Authorization': 'Bearer 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' },
             body: JSON.stringify({ text: this.state.inputValue }),
         });
         const data = await res.json();
@@ -44,7 +45,7 @@ class Chatbot extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
     };
     render() {
         const { messages, inputValue } = this.state;
-        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "chatbot-container", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "messages", children: messages.map((message, index) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: `message ${message.user}`, children: message.text }, index))) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "input-container", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { className: "input", value: inputValue, onChange: this.onInputChange }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { className: "send-button", onClick: this.sendMessage, children: "Send" })] })] }));
+        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "chatbot-container", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "messages", children: messages.map((message, index) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `message ${message.user}`, children: [message.user === 'bot' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "bot-message", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "openai-logo" }), " ", (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { children: message.text })] })), message.user === 'user' && message.text] }, index))) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "input-container", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { className: "input", value: inputValue, onChange: this.onInputChange }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { className: "send-button", onClick: this.sendMessage, children: "Send" })] })] }));
     }
 }
 

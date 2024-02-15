@@ -19,7 +19,7 @@ export default class Chatbot extends React.Component<Props, State> {
     super(props);
     this.state = {
       messages: [
-        { user: 'bot', text: 'Hello! I am a chatbot. Ask me anything related to Power BI.' }
+        { user: 'bot', text: 'Hello! I am your Viz chatbot. Ask me anything related to the data.' }
       ],
       inputValue: '',
     };
@@ -31,9 +31,10 @@ export default class Chatbot extends React.Component<Props, State> {
   sendMessage = async () => {
     // Add your OpenAI API integration here
     // For now, let's just simulate a response
-    const res = await fetch('https://mock-api.com/messages', {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' ,
+                 'Authorization': 'Bearer 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'},
       body: JSON.stringify({ text: this.state.inputValue }),
     });
 
@@ -50,13 +51,19 @@ export default class Chatbot extends React.Component<Props, State> {
 
   render() {
     const { messages, inputValue } = this.state;
-
+  
     return (
       <div className="chatbot-container">
         <div className="messages">
           {messages.map((message, index) => (
             <div key={index} className={`message ${message.user}`}>
-              {message.text}
+              {message.user === 'bot' && (
+                <div className="bot-message">
+                  <div className="openai-logo" /> {/* Apply openai-logo class here */}
+                  <div>{message.text}</div>
+                </div>
+              )}
+              {message.user === 'user' && message.text}
             </div>
           ))}
         </div>
@@ -73,4 +80,5 @@ export default class Chatbot extends React.Component<Props, State> {
       </div>
     );
   }
+  
 }
