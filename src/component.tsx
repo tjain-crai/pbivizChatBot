@@ -59,7 +59,7 @@ export default class Chatbot extends React.Component<Props, State> {
             <div key={index} className={`message ${message.user}`}>
               {message.user === 'bot' && (
                 <div className="bot-message">
-                  <div className="openai-logo" /> {/* Apply openai-logo class here */}
+                  <div className="openai-logo" /> 
                   <div>{message.text}</div>
                 </div>
               )}
