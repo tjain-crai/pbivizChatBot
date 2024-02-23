@@ -33,11 +33,12 @@
     z-index: -1; /* Position the background logo behind the content */
     pointer-events: none; /* Ensure that the background logo does not capture mouse events */
     background-repeat: no-repeat;
+    background-position: center;
 }
 
 .message {
     background-color: #f0f0f0; /* Light gray background */
-    padding: 10px;
+    padding: 8px;
     border-radius: 10px; /* Rounded corners */
     margin-bottom: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
@@ -83,7 +84,7 @@
     height: 10%;
     margin-top: 20px; /* Add some spacing between messages and input */
     justify-content: flex-start;
-    padding: 0 20px; /* Add padding to the left and right edges */
+    padding: 0 1px; /* Add padding to the left and right edges */
 }
 
 .input {
@@ -91,8 +92,8 @@
     padding: 10px;
     border-radius: 20px; /* Rounded input */
     border: 1px solid #ddd; /* Light gray border */
-    max-width: 80%; /* Limit maximum width to 80% of container */
-    max-width: calc(100% - 120px); /* Limit maximum width to adjust for button width and padding */
+    // max-width: 80%; /* Limit maximum width to 80% of container */
+    max-width: calc(100% - 10px); /* Limit maximum width to adjust for button width and padding */
 }
 
 .send-button {

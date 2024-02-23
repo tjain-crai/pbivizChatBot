@@ -1,15 +1,18 @@
 import * as React from 'react';
+import { VisualSettings } from './settings';
 
-interface Message {
+
+export interface Message {
   user: string;
   text: string;
 }
 
-interface Props {
-  hostServices: any;
+export interface Props {
+    hostServices: any;
+    settings: VisualSettings;
 }
 
-interface State {
+export interface State {
   messages: Message[];
   inputValue: string;
 }
@@ -31,10 +34,11 @@ export default class Chatbot extends React.Component<Props, State> {
   sendMessage = async () => {
     // Add your OpenAI API integration here
     // For now, let's just simulate a response
+    const { apiKey } = this.props.settings;
     const res = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' ,
-                 'Authorization': 'Bearer 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'},
+                 'Authorization': 'Bearer ${apiKey}'},
       body: JSON.stringify({ text: this.state.inputValue }),
     });
 
@@ -59,7 +63,7 @@ export default class Chatbot extends React.Component<Props, State> {
             <div key={index} className={`message ${message.user}`}>
               {message.user === 'bot' && (
                 <div className="bot-message">
-                  <div className="openai-logo" /> 
+                  <div className="openai-logo" /> {/* Apply openai-logo class here */}
                   <div>{message.text}</div>
                 </div>
               )}

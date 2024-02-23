@@ -9,11 +9,9 @@ var pbivizChatBot1627AB145BED4838AEED523084597B28_DEBUG;
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   Z: () => (/* binding */ Chatbot)
 /* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(893);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(294);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(294);
 
-
-class Chatbot extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
+class Chatbot extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -28,10 +26,11 @@ class Chatbot extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
     sendMessage = async () => {
         // Add your OpenAI API integration here
         // For now, let's just simulate a response
+        const { apiKey } = this.props.settings;
         const res = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json',
-                'Authorization': 'Bearer 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' },
+                'Authorization': 'Bearer ${apiKey}' },
             body: JSON.stringify({ text: this.state.inputValue }),
         });
         const data = await res.json();
@@ -45,8 +44,34 @@ class Chatbot extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
     };
     render() {
         const { messages, inputValue } = this.state;
-        return ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "chatbot-container", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "messages", children: messages.map((message, index) => ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: `message ${message.user}`, children: [message.user === 'bot' && ((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "bot-message", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { className: "openai-logo" }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { children: message.text })] })), message.user === 'user' && message.text] }, index))) }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", { className: "input-container", children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", { className: "input", value: inputValue, onChange: this.onInputChange }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", { className: "send-button", onClick: this.sendMessage, children: "Send" })] })] }));
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "chatbot-container" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "messages" }, messages.map((message, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { key: index, className: `message ${message.user}` },
+                message.user === 'bot' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "bot-message" },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "openai-logo" }),
+                    " ",
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, message.text))),
+                message.user === 'user' && message.text)))),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "input-container" },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { className: "input", value: inputValue, onChange: this.onInputChange }),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", { className: "send-button", onClick: this.sendMessage }, "Send"))));
     }
+}
+
+
+/***/ }),
+
+/***/ 539:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   J: () => (/* binding */ VisualSettings)
+/* harmony export */ });
+/* harmony import */ var powerbi_visuals_utils_formattingmodel__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(84);
+
+
+var Model = powerbi_visuals_utils_formattingmodel__WEBPACK_IMPORTED_MODULE_0__/* .Model */ .Hn;
+class VisualSettings extends Model {
+    apiKey = "";
 }
 
 
@@ -61,6 +86,8 @@ class Chatbot extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(294);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(935);
 /* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(896);
+/* harmony import */ var _settings__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(539);
+
 
 
 
@@ -68,15 +95,358 @@ class Chatbot extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
 
 class Visual {
     target;
-    reactRoot;
+    settings;
     constructor(options) {
-        this.reactRoot = react__WEBPACK_IMPORTED_MODULE_0__.createElement(_component__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .Z, { hostServices: options.host });
         this.target = options.element;
-        react_dom__WEBPACK_IMPORTED_MODULE_1__.render(this.reactRoot, this.target);
+        this.settings = new _settings__WEBPACK_IMPORTED_MODULE_3__/* .VisualSettings */ .J(); // Initialize settings here
+        // Render React component
+        this.renderReactComponent(options);
     }
-    update(options) { }
+    update(options) {
+        // Update settings if necessary
+        if (options && options.dataViews && options.dataViews[0]) {
+            const dataView = options.dataViews[0];
+            const metadata = dataView.metadata;
+            const objects = metadata && metadata.objects;
+            this.settings = this.extractSettings(objects);
+        }
+    }
+    renderReactComponent(options) {
+        react_dom__WEBPACK_IMPORTED_MODULE_1__.render(react__WEBPACK_IMPORTED_MODULE_0__.createElement(_component__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .Z, {
+            hostServices: options.host,
+            settings: this.settings
+        }), this.target);
+    }
+    extractSettings(objects) {
+        let visualSettings = new _settings__WEBPACK_IMPORTED_MODULE_3__/* .VisualSettings */ .J();
+        if (objects && objects.apiKeySettings) {
+            const apiKey = objects.apiKeySettings.apiKey;
+            if (apiKey) {
+                visualSettings.apiKey = apiKey;
+            }
+        }
+        return visualSettings;
+    }
 }
 
+
+/***/ }),
+
+/***/ 84:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Hn: () => (/* binding */ Model)
+/* harmony export */ });
+/* unused harmony exports CardGroupEntity, CompositeCard, Group, SimpleCard, SimpleSlice, AlignmentGroup, ToggleSwitch, ColorPicker, NumUpDown, Slider, DatePicker, ItemDropdown, AutoDropdown, DurationPicker, ErrorRangeControl, FieldPicker, ItemFlagsSelection, AutoFlagsSelection, TextInput, TextArea, FontPicker, GradientBar, ImageUpload, ListEditor, ReadOnlyText, ShapeMapSelector, CompositeSlice, FontControl, MarginPadding, Container, ContainerItem */
+/**
+ * Powerbi utils components classes for custom visual formatting pane objects
+ *
+ */
+
+class NamedEntity {
+}
+class CardGroupEntity extends (/* unused pure expression or super */ null && (NamedEntity)) {
+}
+class Model {
+}
+/** CompositeCard is use to populate a card into the formatting pane with multiple groups */
+class CompositeCard extends (/* unused pure expression or super */ null && (NamedEntity)) {
+}
+class Group extends (/* unused pure expression or super */ null && (CardGroupEntity)) {
+    constructor(object) {
+        super();
+        Object.assign(this, object);
+    }
+}
+/** SimpleCard is use to populate a card into the formatting pane in a single group */
+class SimpleCard extends (/* unused pure expression or super */ null && (CardGroupEntity)) {
+}
+class SimpleSlice extends (/* unused pure expression or super */ null && (NamedEntity)) {
+    constructor(object) {
+        super();
+        Object.assign(this, object);
+    }
+    getFormattingSlice(objectName, localizationManager) {
+        const controlType = this.type;
+        const propertyName = this.name;
+        const sliceDisplayName = (localizationManager && this.displayNameKey) ? localizationManager.getDisplayName(this.displayNameKey) : this.displayName;
+        const sliceDescription = (localizationManager && this.descriptionKey) ? localizationManager.getDisplayName(this.descriptionKey) : this.description;
+        const componentDisplayName = {
+            displayName: sliceDisplayName,
+            description: sliceDescription,
+            uid: objectName + '-' + propertyName,
+        };
+        return Object.assign(Object.assign({}, componentDisplayName), { control: {
+                type: controlType,
+                properties: this.getFormattingComponent(objectName, localizationManager)
+            } });
+    }
+    getFormattingComponent(objectName, localizationManager) {
+        return {
+            descriptor: FormattingSettingsParser.getDescriptor(objectName, this),
+            value: this.value,
+        };
+    }
+    getRevertToDefaultDescriptor(objectName) {
+        return [{
+                objectName: objectName,
+                propertyName: this.name
+            }];
+    }
+    setPropertiesValues(dataViewObjects, objectName) {
+        var _a;
+        let newValue = (_a = dataViewObjects === null || dataViewObjects === void 0 ? void 0 : dataViewObjects[objectName]) === null || _a === void 0 ? void 0 : _a[this.name];
+        this.value = FormattingSettingsParser.getPropertyValue(this, newValue, this.value);
+    }
+}
+class AlignmentGroup extends (/* unused pure expression or super */ null && (SimpleSlice)) {
+    constructor(object) {
+        super(object);
+        this.type = "AlignmentGroup" /* visuals.FormattingComponent.AlignmentGroup */;
+    }
+    getFormattingComponent(objectName) {
+        return Object.assign(Object.assign({}, super.getFormattingComponent(objectName)), { mode: this.mode, supportsNoSelection: this.supportsNoSelection });
+    }
+}
+class ToggleSwitch extends (/* unused pure expression or super */ null && (SimpleSlice)) {
+    constructor(object) {
+        super(object);
+        this.type = "ToggleSwitch" /* visuals.FormattingComponent.ToggleSwitch */;
+    }
+}
+class ColorPicker extends (/* unused pure expression or super */ null && (SimpleSlice)) {
+    constructor(object) {
+        super(object);
+        this.type = "ColorPicker" /* visuals.FormattingComponent.ColorPicker */;
+    }
+    getFormattingComponent(objectName) {
+        return Object.assign(Object.assign({}, super.getFormattingComponent(objectName)), { defaultColor: this.defaultColor, isNoFillItemSupported: this.isNoFillItemSupported });
+    }
+}
+class NumUpDown extends (/* unused pure expression or super */ null && (SimpleSlice)) {
+    constructor(object) {
+        super(object);
+        this.type = "NumUpDown" /* visuals.FormattingComponent.NumUpDown */;
+    }
+    getFormattingComponent(objectName) {
+        return Object.assign(Object.assign({}, super.getFormattingComponent(objectName)), { options: this.options });
+    }
+}
+class Slider extends (/* unused pure expression or super */ null && (NumUpDown)) {
+    constructor() {
+        super(...arguments);
+        this.type = "Slider" /* visuals.FormattingComponent.Slider */;
+    }
+}
+class DatePicker extends (/* unused pure expression or super */ null && (SimpleSlice)) {
+    constructor(object) {
+        super(object);
+        this.type = "DatePicker" /* visuals.FormattingComponent.DatePicker */;
+    }
+    getFormattingComponent(objectName, localizationManager) {
+        return Object.assign(Object.assign({}, super.getFormattingComponent(objectName)), { placeholder: (localizationManager && this.placeholderKey) ? localizationManager.getDisplayName(this.placeholderKey) : this.placeholder, validators: this.validators });
+    }
+}
+class ItemDropdown extends (/* unused pure expression or super */ null && (SimpleSlice)) {
+    constructor(object) {
+        super(object);
+        this.type = "Dropdown" /* visuals.FormattingComponent.Dropdown */;
+    }
+    getFormattingComponent(objectName) {
+        return Object.assign(Object.assign({}, super.getFormattingComponent(objectName)), { items: this.items });
+    }
+}
+class AutoDropdown extends (/* unused pure expression or super */ null && (SimpleSlice)) {
+    constructor(object) {
+        super(object);
+        this.type = "Dropdown" /* visuals.FormattingComponent.Dropdown */;
+    }
+    getFormattingComponent(objectName) {
+        return Object.assign(Object.assign({}, super.getFormattingComponent(objectName)), { mergeValues: this.mergeValues, filterValues: this.filterValues });
+    }
+}
+class DurationPicker extends (/* unused pure expression or super */ null && (SimpleSlice)) {
+    constructor(object) {
+        super(object);
+        this.type = "DurationPicker" /* visuals.FormattingComponent.DurationPicker */;
+    }
+    getFormattingComponent(objectName) {
+        return Object.assign(Object.assign({}, super.getFormattingComponent(objectName)), { validators: this.validators });
+    }
+}
+class ErrorRangeControl extends (/* unused pure expression or super */ null && (SimpleSlice)) {
+    constructor(object) {
+        super(object);
+        this.type = "ErrorRangeControl" /* visuals.FormattingComponent.ErrorRangeControl */;
+    }
+    getFormattingComponent(objectName) {
+        return Object.assign(Object.assign({}, super.getFormattingComponent(objectName)), { validators: this.validators });
+    }
+}
+class FieldPicker extends (/* unused pure expression or super */ null && (SimpleSlice)) {
+    constructor(object) {
+        super(object);
+        this.type = "FieldPicker" /* visuals.FormattingComponent.FieldPicker */;
+    }
+    getFormattingComponent(objectName) {
+        return Object.assign(Object.assign({}, super.getFormattingComponent(objectName)), { validators: this.validators, allowMultipleValues: this.allowMultipleValues });
+    }
+}
+class ItemFlagsSelection extends (/* unused pure expression or super */ null && (SimpleSlice)) {
+    constructor(object) {
+        super(object);
+        this.type = "FlagsSelection" /* visuals.FormattingComponent.FlagsSelection */;
+    }
+    getFormattingComponent(objectName) {
+        return Object.assign(Object.assign({}, super.getFormattingComponent(objectName)), { items: this.items });
+    }
+}
+class AutoFlagsSelection extends (/* unused pure expression or super */ null && (SimpleSlice)) {
+    constructor() {
+        super(...arguments);
+        this.type = "FlagsSelection" /* visuals.FormattingComponent.FlagsSelection */;
+    }
+}
+class TextInput extends (/* unused pure expression or super */ null && (SimpleSlice)) {
+    constructor(object) {
+        super(object);
+        this.type = "TextInput" /* visuals.FormattingComponent.TextInput */;
+    }
+    getFormattingComponent(objectName) {
+        return Object.assign(Object.assign({}, super.getFormattingComponent(objectName)), { placeholder: this.placeholder });
+    }
+}
+class TextArea extends (/* unused pure expression or super */ null && (TextInput)) {
+    constructor() {
+        super(...arguments);
+        this.type = "TextArea" /* visuals.FormattingComponent.TextArea */;
+    }
+}
+class FontPicker extends (/* unused pure expression or super */ null && (SimpleSlice)) {
+    constructor() {
+        super(...arguments);
+        this.type = "FontPicker" /* visuals.FormattingComponent.FontPicker */;
+    }
+}
+class GradientBar extends (/* unused pure expression or super */ null && (SimpleSlice)) {
+    constructor() {
+        super(...arguments);
+        this.type = "GradientBar" /* visuals.FormattingComponent.GradientBar */;
+    }
+}
+class ImageUpload extends (/* unused pure expression or super */ null && (SimpleSlice)) {
+    constructor() {
+        super(...arguments);
+        this.type = "ImageUpload" /* visuals.FormattingComponent.ImageUpload */;
+    }
+}
+class ListEditor extends (/* unused pure expression or super */ null && (SimpleSlice)) {
+    constructor() {
+        super(...arguments);
+        this.type = "ListEditor" /* visuals.FormattingComponent.ListEditor */;
+    }
+}
+class ReadOnlyText extends (/* unused pure expression or super */ null && (SimpleSlice)) {
+    constructor() {
+        super(...arguments);
+        this.type = "ReadOnlyText" /* visuals.FormattingComponent.ReadOnlyText */;
+    }
+}
+class ShapeMapSelector extends (/* unused pure expression or super */ null && (SimpleSlice)) {
+    constructor(object) {
+        super(object);
+        this.type = "ShapeMapSelector" /* visuals.FormattingComponent.ShapeMapSelector */;
+    }
+    getFormattingComponent(objectName) {
+        return Object.assign(Object.assign({}, super.getFormattingComponent(objectName)), { isAzMapReferenceSelector: this.isAzMapReferenceSelector });
+    }
+}
+class CompositeSlice extends (/* unused pure expression or super */ null && (NamedEntity)) {
+    constructor(object) {
+        super();
+        Object.assign(this, object);
+    }
+    getFormattingSlice(objectName, localizationManager) {
+        const controlType = this.type;
+        const propertyName = this.name;
+        const componentDisplayName = {
+            displayName: (localizationManager && this.displayNameKey) ? localizationManager.getDisplayName(this.displayNameKey) : this.displayName,
+            description: (localizationManager && this.descriptionKey) ? localizationManager.getDisplayName(this.descriptionKey) : this.description,
+            uid: objectName + '-' + propertyName,
+        };
+        return Object.assign(Object.assign({}, componentDisplayName), { control: {
+                type: controlType,
+                properties: this.getFormattingComponent(objectName)
+            } });
+    }
+}
+class FontControl extends (/* unused pure expression or super */ null && (CompositeSlice)) {
+    constructor(object) {
+        super(object);
+        this.type = "FontControl" /* visuals.FormattingComponent.FontControl */;
+    }
+    getFormattingComponent(objectName) {
+        var _a, _b, _c;
+        return {
+            fontFamily: this.fontFamily.getFormattingComponent(objectName),
+            fontSize: this.fontSize.getFormattingComponent(objectName),
+            bold: (_a = this.bold) === null || _a === void 0 ? void 0 : _a.getFormattingComponent(objectName),
+            italic: (_b = this.italic) === null || _b === void 0 ? void 0 : _b.getFormattingComponent(objectName),
+            underline: (_c = this.underline) === null || _c === void 0 ? void 0 : _c.getFormattingComponent(objectName)
+        };
+    }
+    getRevertToDefaultDescriptor(objectName) {
+        return this.fontFamily.getRevertToDefaultDescriptor(objectName)
+            .concat(this.fontSize.getRevertToDefaultDescriptor(objectName))
+            .concat(this.bold ? this.bold.getRevertToDefaultDescriptor(objectName) : [])
+            .concat(this.italic ? this.italic.getRevertToDefaultDescriptor(objectName) : [])
+            .concat(this.underline ? this.underline.getRevertToDefaultDescriptor(objectName) : []);
+    }
+    setPropertiesValues(dataViewObjects, objectName) {
+        var _a, _b, _c;
+        this.fontFamily.setPropertiesValues(dataViewObjects, objectName);
+        this.fontSize.setPropertiesValues(dataViewObjects, objectName);
+        (_a = this.bold) === null || _a === void 0 ? void 0 : _a.setPropertiesValues(dataViewObjects, objectName);
+        (_b = this.italic) === null || _b === void 0 ? void 0 : _b.setPropertiesValues(dataViewObjects, objectName);
+        (_c = this.underline) === null || _c === void 0 ? void 0 : _c.setPropertiesValues(dataViewObjects, objectName);
+    }
+}
+class MarginPadding extends (/* unused pure expression or super */ null && (CompositeSlice)) {
+    constructor(object) {
+        super(object);
+        this.type = "MarginPadding" /* visuals.FormattingComponent.MarginPadding */;
+    }
+    getFormattingComponent(objectName) {
+        return {
+            left: this.left.getFormattingComponent(objectName),
+            right: this.right.getFormattingComponent(objectName),
+            top: this.top.getFormattingComponent(objectName),
+            bottom: this.bottom.getFormattingComponent(objectName)
+        };
+    }
+    getRevertToDefaultDescriptor(objectName) {
+        return this.left.getRevertToDefaultDescriptor(objectName)
+            .concat(this.right.getRevertToDefaultDescriptor(objectName))
+            .concat(this.top.getRevertToDefaultDescriptor(objectName))
+            .concat(this.bottom.getRevertToDefaultDescriptor(objectName));
+    }
+    setPropertiesValues(dataViewObjects, objectName) {
+        this.left.setPropertiesValues(dataViewObjects, objectName);
+        this.right.setPropertiesValues(dataViewObjects, objectName);
+        this.top.setPropertiesValues(dataViewObjects, objectName);
+        this.bottom.setPropertiesValues(dataViewObjects, objectName);
+    }
+}
+class Container extends (/* unused pure expression or super */ null && (NamedEntity)) {
+    constructor(object) {
+        super();
+        Object.assign(this, object);
+    }
+}
+class ContainerItem extends (/* unused pure expression or super */ null && (NamedEntity)) {
+}
+//# sourceMappingURL=FormattingSettingsComponents.js.map
 
 /***/ }),
 
@@ -445,25 +815,6 @@ if (true) {
 
 /***/ }),
 
-/***/ 251:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-var __webpack_unused_export__;
-/**
- * @license React
- * react-jsx-runtime.production.min.js
- *
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-var f=__webpack_require__(294),k=Symbol.for("react.element"),l=Symbol.for("react.fragment"),m=Object.prototype.hasOwnProperty,n=f.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,p={key:!0,ref:!0,__self:!0,__source:!0};
-function q(c,a,g){var b,d={},e=null,h=null;void 0!==g&&(e=""+g);void 0!==a.key&&(e=""+a.key);void 0!==a.ref&&(h=a.ref);for(b in a)m.call(a,b)&&!p.hasOwnProperty(b)&&(d[b]=a[b]);if(c&&c.defaultProps)for(b in a=c.defaultProps,a)void 0===d[b]&&(d[b]=a[b]);return{$$typeof:k,type:c,key:e,ref:h,props:d,_owner:n.current}}__webpack_unused_export__=l;exports.jsx=q;exports.jsxs=q;
-
-
-/***/ }),
-
 /***/ 408:
 /***/ ((__unused_webpack_module, exports) => {
 
@@ -504,18 +855,6 @@ exports.useTransition=function(){return U.current.useTransition()};exports.versi
 
 if (true) {
   module.exports = __webpack_require__(408);
-} else {}
-
-
-/***/ }),
-
-/***/ 893:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-
-
-if (true) {
-  module.exports = __webpack_require__(251);
 } else {}
 
 

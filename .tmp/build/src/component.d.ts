@@ -1,12 +1,14 @@
 import * as React from 'react';
-interface Message {
+import { VisualSettings } from './settings';
+export interface Message {
     user: string;
     text: string;
 }
-interface Props {
+export interface Props {
     hostServices: any;
+    settings: VisualSettings;
 }
-interface State {
+export interface State {
     messages: Message[];
     inputValue: string;
 }
@@ -14,6 +16,5 @@ export default class Chatbot extends React.Component<Props, State> {
     constructor(props: Props);
     sendMessage: () => Promise<void>;
     onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    render(): import("react/jsx-runtime").JSX.Element;
+    render(): React.JSX.Element;
 }
-export {};
