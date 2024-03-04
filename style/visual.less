@@ -97,6 +97,12 @@
 }
 
 .send-button {
+    // putting the send button inside the input box
+    position: absolute;
+    right: 10px;
+    box-shadow: 0 0 10px grey;
+    margin: 12px;
+    // end of code for putting the send button inside the input box
     padding: 10px 20px;
     border-radius: 20px;
     background-color: #007bff; /* Blue color for button */
@@ -106,4 +112,9 @@
     font-weight: bold;
     margin-left: 10px; /* Add some spacing between input and button */
     max-width: 20%; /* Limit maximum width to 20% of container */
+}
+
+.send-button:active {
+    transform: scale(0.8);
+    box-shadow: 0 0 5px black;
 }
