@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+
 interface Message {
   user: string;
   text: string;
@@ -14,7 +15,8 @@ interface State {
   inputValue: string;
 }
 
-export default class Chatbot extends React.Component<Props, State> {
+export default class ReactChatbot extends React.Component<Props, State> {
+  
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -30,20 +32,42 @@ export default class Chatbot extends React.Component<Props, State> {
 
   sendMessage = async () => {
     // Add your OpenAI API integration here
+    const { inputValue } = this.state;
+      // Construct the request body
+      const requestBody = {
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: inputValue }],
+        temperature: 0.9,
+        max_tokens: 150,
+        top_p: 1,
+        frequency_penalty: 0,
+        presence_penalty: 0.6
+    };
+
+    try {
     // For now, let's just simulate a response
     const res = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' ,
-                 'Authorization': 'Bearer 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'},
-      body: JSON.stringify({ text: this.state.inputValue }),
+                 'Authorization': `Bearer `},
+      // body: JSON.stringify({ text: this.state.inputValue }),
+      body: JSON.stringify(requestBody)
     });
 
+    if (!res.ok) {
+      throw new Error('Failed to fetch data');
+  }
+
     const data = await res.json();
+
     this.setState((prevState) => ({
-      messages: [...prevState.messages, { user: 'user', text: prevState.inputValue }, { user: 'bot', text: data.text }],
+      messages: [...prevState.messages, { user: 'user', text: prevState.inputValue }, { user: 'bot', text: data.choices[0].message.content }],
       inputValue: '',
     }));
-  };
+  } catch (error) {
+    console.error('Error:', error);
+}
+};
 
   onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ inputValue: event.target.value });
@@ -59,7 +83,7 @@ export default class Chatbot extends React.Component<Props, State> {
             <div key={index} className={`message ${message.user}`}>
               {message.user === 'bot' && (
                 <div className="bot-message">
-                  <div className="openai-logo" /> {/* Apply openai-logo class here */}
+                  <div className="openai-logo" /> 
                   <div>{message.text}</div>
                 </div>
               )}
