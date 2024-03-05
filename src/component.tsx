@@ -6,15 +6,26 @@ interface Message {
   text: string;
 }
 
+
 interface Props {
   hostServices: any;
+  // categories: any[]; // Array of arrays for multiple categories
+  // measures: any[]; // Array of arrays for multiple measures
+  tableData: {
+    categories: any[];
+    measures: any[];
+    categoryColumns: string[];
+    measureColumns: string[];
+  };
 }
+
 
 interface State {
   messages: Message[];
   inputValue: string;
 }
 
+const apiKey = "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";
 export default class ReactChatbot extends React.Component<Props, State> {
   
   constructor(props: Props) {
@@ -33,10 +44,29 @@ export default class ReactChatbot extends React.Component<Props, State> {
   sendMessage = async () => {
     // Add your OpenAI API integration here
     const { inputValue } = this.state;
+
+    const { tableData } = this.props;
+    // Associate measures with their corresponding columns
+    const measureColumnData = tableData.measureColumns.reduce((acc, column, index) => {
+      acc[column] = tableData.measures[index];
+      return acc;
+    }, {} as { [key: string]: any });
+
+    // Format the data to send to the API
+    const requestData = {
+      categories: tableData.categories,
+      measures: measureColumnData
+    };
+
+    console.log("First showing the tabluar data created")
+    console.log(requestData)
+    console.log("Now showing trhe json version of it")
+    console.log(JSON.stringify(requestData))
+
       // Construct the request body
       const requestBody = {
         model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: inputValue }],
+        messages: [{ role: "user", content: inputValue  + JSON.stringify(tableData)}],
         temperature: 0.9,
         max_tokens: 150,
         top_p: 1,
@@ -49,7 +79,7 @@ export default class ReactChatbot extends React.Component<Props, State> {
     const res = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' ,
-                 'Authorization': `Bearer `},
+                 'Authorization': `Bearer ${apiKey}`},
       // body: JSON.stringify({ text: this.state.inputValue }),
       body: JSON.stringify(requestBody)
     });
