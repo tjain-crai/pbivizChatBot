@@ -8,18 +8,44 @@ import ReactChatbot from './component';
 import './../style/visual.less';
 
 export class Visual implements powerbi.extensibility.visual.IVisual {
-  private target: HTMLElement;
-  private reactRoot: React.ComponentElement<any, any>;
-
-  constructor(options: powerbi.extensibility.visual.VisualConstructorOptions) {
-    this.reactRoot = React.createElement(ReactChatbot, { hostServices: options.host });
-    this.target = options.element;
-
-    ReactDOM.render(this.reactRoot, this.target);
+    private target: HTMLElement;
+    private reactRoot: React.ComponentElement<any, any>;
+    private host: powerbi.extensibility.visual.IVisualHost;
+  
+    constructor(options: powerbi.extensibility.visual.VisualConstructorOptions) {
+      this.target = options.element;
+      this.host = options.host;
+    }
+    private removeSumOfPrefix(columnName: string): string {
+      return columnName.replace(/^sum of /i, '');
   }
 
   
-    public update(options: powerbi.extensibility.visual.VisualUpdateOptions) {}
+    public update(options: powerbi.extensibility.visual.VisualUpdateOptions) {
+      
+      // console.log(options.dataViews[0].categorical)
+      const dataView = options.dataViews[0]; // Assuming only one data view for simplicity
+      // Extract category and measure data
+      const categories = dataView.categorical.categories.map(category => category.values);
+      const measures = dataView.categorical.values.map(measure => measure.values);
+      const categoryColumns = dataView.categorical.categories.map(category => category.source.displayName);
+      const measureColumns = dataView.categorical.values.map(measure => this.removeSumOfPrefix(measure.source.displayName));
+
+      console.log(categoryColumns,measureColumns)
+      
+          // Create table data
+      const tableData = {
+        categories,
+        measures,
+        categoryColumns,
+        measureColumns
+      };
+  
+      // Pass data to React component as props
+      this.reactRoot = React.createElement(ReactChatbot, { hostServices: this.host, tableData });
+      
+      ReactDOM.render(this.reactRoot, this.target);
+    }
   }
 
 // //   public update(options: powerbi.extensibility.visual.VisualUpdateOptions) {}
