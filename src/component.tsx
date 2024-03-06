@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+// import 'dotenv/config';
 
 interface Message {
   user: string;
@@ -25,7 +25,10 @@ interface State {
   inputValue: string;
 }
 
-const apiKey = "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";
+const apiKey = "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";
+
+// const apiKey = process.env.REACT_APP_API_KEY;
+
 export default class ReactChatbot extends React.Component<Props, State> {
   
   constructor(props: Props) {
@@ -46,27 +49,46 @@ export default class ReactChatbot extends React.Component<Props, State> {
     const { inputValue } = this.state;
 
     const { tableData } = this.props;
+
+
     // Associate measures with their corresponding columns
-    const measureColumnData = tableData.measureColumns.reduce((acc, column, index) => {
-      acc[column] = tableData.measures[index];
-      return acc;
-    }, {} as { [key: string]: any });
+    // const measureColumnData = tableData.measureColumns.reduce((acc, column, index) => {
+    //   acc[column] = tableData.measures[index];
+    //   return acc;
+    // }, {} as { [key: string]: any });
 
-    // Format the data to send to the API
-    const requestData = {
-      categories: tableData.categories,
-      measures: measureColumnData
-    };
+    // // Format the data to send to the API
+    // const requestData = {
+    //   categories: tableData.categories,
+    //   measures: measureColumnData
+    // };
 
+    // console.log("First showing the tabluar data created")
+    // console.log(requestData)
+    // console.log("Now showing trhe json version of it")
+    // console.log(JSON.stringify(requestData))
+
+
+    const records = tableData.categories[0].map((category: string, index: number) => {
+      const record: any = { Category: category };
+      tableData.measureColumns.forEach((measureColumn: string, columnIndex: number) => {
+        record[measureColumn] = tableData.measures[columnIndex][index];
+      });
+      return record;
+    });
+
+    const dataJson = JSON.stringify(records);
+
+    console.log(Date.now())
     console.log("First showing the tabluar data created")
-    console.log(requestData)
+    console.log(records)
     console.log("Now showing trhe json version of it")
-    console.log(JSON.stringify(requestData))
+    console.log(dataJson)
 
       // Construct the request body
       const requestBody = {
         model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: inputValue  + JSON.stringify(tableData)}],
+        messages: [{ role: "user", content: inputValue  + JSON.stringify(records)}],
         temperature: 0.9,
         max_tokens: 150,
         top_p: 1,
