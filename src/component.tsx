@@ -26,7 +26,7 @@ interface State {
   inputValue: string;
 }
 
-const apiKey = "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";
+const apiKey = "sk-";
 
 // const apiKey = process.env.REACT_APP_API_KEY;
 
