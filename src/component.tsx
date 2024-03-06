@@ -1,5 +1,6 @@
 import * as React from 'react';
-// import 'dotenv/config';
+
+require('dotenv').config()
 
 interface Message {
   user: string;
@@ -25,9 +26,11 @@ interface State {
   inputValue: string;
 }
 
-const apiKey = "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";
+const apiKey = "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";
 
 // const apiKey = process.env.REACT_APP_API_KEY;
+
+console.log("hello " + process.env.REACT_APP_API_KEY)
 
 export default class ReactChatbot extends React.Component<Props, State> {
   
@@ -79,7 +82,7 @@ export default class ReactChatbot extends React.Component<Props, State> {
 
     const dataJson = JSON.stringify(records);
 
-    console.log(Date.now())
+    console.log(Date.now().toLocaleString())
     console.log("First showing the tabluar data created")
     console.log(records)
     console.log("Now showing trhe json version of it")
@@ -88,12 +91,18 @@ export default class ReactChatbot extends React.Component<Props, State> {
       // Construct the request body
       const requestBody = {
         model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: inputValue  + JSON.stringify(records)}],
-        temperature: 0.9,
+        messages: [
+          {
+            "role": "system",
+            "content": "Give concise answers and dont speak about Data or Datasets until asked and when asked about the datat then answer questions like an amazing Business Intelligence officer and Data Analyst"
+          },
+          { role: "user", content: inputValue  + JSON.stringify(records)}],
+        // temperature: 0.9,
         max_tokens: 150,
-        top_p: 1,
+        top_p: 0.2,
         frequency_penalty: 0,
-        presence_penalty: 0.6
+        presence_penalty: 0.6,
+        seed: 8
     };
 
     try {
@@ -111,7 +120,7 @@ export default class ReactChatbot extends React.Component<Props, State> {
   }
 
     const data = await res.json();
-
+    console.log(res)
     this.setState((prevState) => ({
       messages: [...prevState.messages, { user: 'user', text: prevState.inputValue }, { user: 'bot', text: data.choices[0].message.content }],
       inputValue: '',

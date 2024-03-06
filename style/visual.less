@@ -34,23 +34,6 @@
     pointer-events: none; /* Ensure that the background logo does not capture mouse events */
     background-repeat: no-repeat;
     background-position: center;
-    position: relative; /* Position relative to allow absolute positioning of the background logo */
-    border-radius: 10px; /* Add border-radius for rounded corners */
-    margin-bottom: 5px;
-}
-
-.messages::after {
-    content: '';
-    background-image: url('../assets/CharlesRiver_logo.svg'); /* Path to the background image file */
-    opacity: 0.5; /* Adjust the opacity to make it look like a watermark */
-    position: absolute; /* Position the background logo absolutely */
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: -1; /* Position the background logo behind the content */
-    pointer-events: none; /* Ensure that the background logo does not capture mouse events */
-    background-repeat: no-repeat;
 }
 
 .message {
@@ -78,11 +61,9 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    flex-wrap: wrap;
 }
   
 .bot-logo {
-    width: auto; /* Adjust size as needed */
     width: auto; /* Adjust size as needed */
     height: auto; /* Maintain aspect ratio */
     margin-right: 1px; /* Add spacing between logo and text */
@@ -104,8 +85,6 @@
     margin-top: 20px; /* Add some spacing between messages and input */
     justify-content: flex-start;
     padding: 0 1px; /* Add padding to the left and right edges */
-    justify-content: flex-start;
-    padding: 0 20px; /* Add padding to the left and right edges */
 }
 
 .input {
@@ -115,17 +94,9 @@
     border: 1px solid #ddd; /* Light gray border */
     // max-width: 80%; /* Limit maximum width to 80% of container */
     max-width: calc(100% - 10px); /* Limit maximum width to adjust for button width and padding */
-    max-width: 80%; /* Limit maximum width to 80% of container */
-    max-width: calc(100% - 120px); /* Limit maximum width to adjust for button width and padding */
 }
 
 .send-button {
-    // putting the send button inside the input box
-    position: absolute;
-    right: 10px;
-    box-shadow: 0 0 10px grey;
-    margin: 12px;
-    // end of code for putting the send button inside the input box
     // putting the send button inside the input box
     position: absolute;
     right: 10px;
@@ -147,6 +118,3 @@
     transform: scale(0.8);
     box-shadow: 0 0 5px black;
 }
-
-
-
