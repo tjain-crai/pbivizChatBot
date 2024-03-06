@@ -1,0 +1,26 @@
+{
+    "visual": {
+        "name": "pbivizChatBot",
+        "displayName": "pbivizChatBot",
+        "guid": "pbivizChatBot1627AB145BED4838AEED523084597B28",
+        "visualClassName": "Visual",
+        "version": "1.0.0.0",
+        "description": "",
+        "supportUrl": "",
+        "gitHubUrl": ""
+    },
+    "apiVersion": "5.3.0",
+    "author": {
+        "name": "Trishla Jain",
+        "email": "tjain@crai.com"
+    },
+    "assets": {
+        "icon": "assets/icon.png"
+    },
+    "externalJS": null,
+    "style": "style/visual.less",
+    "capabilities": "capabilities.json",
+    "dependencies": null,
+    "stringResources": [],
+    "version": "1.0.0.0"
+}

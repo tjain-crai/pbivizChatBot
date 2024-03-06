@@ -1,0 +1,152 @@
+.chatbot-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px; /* Increased padding */
+    box-sizing: border-box;
+    height: 95vh;
+    font-family: 'Arial', sans-serif; /* Change font */
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+    overflow-y: auto;
+    padding: 10px;
+    position: relative; /* Position relative to allow absolute positioning of the background logo */
+    border-radius: 10px; /* Add border-radius for rounded corners */
+    margin-bottom: 5px;
+}
+
+.messages::after {
+    content: '';
+    background-image: url('../assets/CharlesRiver_logo.svg'); /* Path to the background image file */
+    opacity: 0.5; /* Adjust the opacity to make it look like a watermark */
+    position: absolute; /* Position the background logo absolutely */
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1; /* Position the background logo behind the content */
+    pointer-events: none; /* Ensure that the background logo does not capture mouse events */
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative; /* Position relative to allow absolute positioning of the background logo */
+    border-radius: 10px; /* Add border-radius for rounded corners */
+    margin-bottom: 5px;
+}
+
+.messages::after {
+    content: '';
+    background-image: url('../assets/CharlesRiver_logo.svg'); /* Path to the background image file */
+    opacity: 0.5; /* Adjust the opacity to make it look like a watermark */
+    position: absolute; /* Position the background logo absolutely */
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1; /* Position the background logo behind the content */
+    pointer-events: none; /* Ensure that the background logo does not capture mouse events */
+    background-repeat: no-repeat;
+}
+
+.message {
+    background-color: #f0f0f0; /* Light gray background */
+    padding: 8px;
+    border-radius: 10px; /* Rounded corners */
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    display: flex;
+}
+
+.user {
+    align-self: flex-end;
+    background-color: #007bff; /* Blue color for user messages */
+    color: white; /* White text color */
+}
+
+.bot {
+    align-self: flex-start;
+    background-color: #f0f0f0; /* Light gray color for bot messages */
+    color: #333; /* Darker text color */
+}
+
+.bot-message {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+  
+.bot-logo {
+    width: auto; /* Adjust size as needed */
+    width: auto; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 1px; /* Add spacing between logo and text */
+}
+  
+.openai-logo {
+    background-image: url("../assets/openai-logo.svg"); /* Path to the image file */
+    background-size: cover; /* Adjust as needed */
+    width: 30px; /* Adjust size as needed */
+    height: 30px; /* Adjust size as needed */
+    margin-right: 10px;
+}
+  
+
+.input-container {
+    display: flex;
+    align-items: center;
+    height: 10%;
+    margin-top: 20px; /* Add some spacing between messages and input */
+    justify-content: flex-start;
+    padding: 0 1px; /* Add padding to the left and right edges */
+    justify-content: flex-start;
+    padding: 0 20px; /* Add padding to the left and right edges */
+}
+
+.input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 20px; /* Rounded input */
+    border: 1px solid #ddd; /* Light gray border */
+    // max-width: 80%; /* Limit maximum width to 80% of container */
+    max-width: calc(100% - 10px); /* Limit maximum width to adjust for button width and padding */
+    max-width: 80%; /* Limit maximum width to 80% of container */
+    max-width: calc(100% - 120px); /* Limit maximum width to adjust for button width and padding */
+}
+
+.send-button {
+    // putting the send button inside the input box
+    position: absolute;
+    right: 10px;
+    box-shadow: 0 0 10px grey;
+    margin: 12px;
+    // end of code for putting the send button inside the input box
+    // putting the send button inside the input box
+    position: absolute;
+    right: 10px;
+    box-shadow: 0 0 10px grey;
+    margin: 12px;
+    // end of code for putting the send button inside the input box
+    padding: 10px 20px;
+    border-radius: 20px;
+    background-color: #007bff; /* Blue color for button */
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    margin-left: 10px; /* Add some spacing between input and button */
+    max-width: 20%; /* Limit maximum width to 20% of container */
+}
+
+.send-button:active {
+    transform: scale(0.8);
+    box-shadow: 0 0 5px black;
+}
+
+
+
