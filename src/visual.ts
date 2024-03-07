@@ -29,7 +29,7 @@ export class Visual implements powerbi.extensibility.visual.IVisual {
       
       // console.log(options.dataViews[0].categorical)
       const dataView = options.dataViews[0]; // Assuming only one data view for simplicity
-      // Extract category and measure data
+      // Extract category and measure data from the visual
       const categories = dataView.categorical.categories.map(category => category.values);
       const measures = dataView.categorical.values.map(measure => measure.values);
       const categoryColumns = dataView.categorical.categories.map(category => category.source.displayName);

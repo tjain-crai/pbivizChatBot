@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-// require('dotenv').config()
+require('dotenv').config()
 
 interface Message {
   user: string;
