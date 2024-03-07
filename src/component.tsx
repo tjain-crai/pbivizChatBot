@@ -26,7 +26,7 @@ interface State {
   inputValue: string;
 }
 
-const apiKey = "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";
+const apiKey = "sk-";
 
 // const apiKey = process.env.REACT_APP_API_KEY;
 
@@ -52,9 +52,9 @@ export default class ReactChatbot extends React.Component<Props, State> {
     const { inputValue } = this.state;
 
     const { tableData } = this.props;
-    
+
+    // Display a message when tableData is null i.e analyst didnt add data to the pbiviz
     if (!tableData) {
-      // Display a message when tableData is null i.e analyst didnt add data to the pbiviz
       this.addBotMessage('Please contact CRA to load the backend data for your analysis');
       return;
     }
