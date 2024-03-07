@@ -11,7 +11,7 @@ var pbivizChatBot1627AB145BED4838AEED523084597B28_DEBUG;
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7294);
 
-const apiKey = "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";
+const apiKey = "sk-";
 // const apiKey = process.env.REACT_APP_API_KEY;
 // console.log("hello " + process.env.REACT_APP_API_KEY)
 class ReactChatbot extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
@@ -30,8 +30,8 @@ class ReactChatbot extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
         // Add your OpenAI API integration here
         const { inputValue } = this.state;
         const { tableData } = this.props;
+        // Display a message when tableData is null i.e analyst didnt add data to the pbiviz
         if (!tableData) {
-            // Display a message when tableData is null i.e analyst didnt add data to the pbiviz
             this.addBotMessage('Please contact CRA to load the backend data for your analysis');
             return;
         }
