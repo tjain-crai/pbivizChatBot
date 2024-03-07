@@ -15,6 +15,10 @@ export class Visual implements powerbi.extensibility.visual.IVisual {
     constructor(options: powerbi.extensibility.visual.VisualConstructorOptions) {
       this.target = options.element;
       this.host = options.host;
+      // rendering the basic visual on load
+      this.reactRoot = React.createElement(ReactChatbot, { hostServices: this.host, tableData: null });
+      ReactDOM.render(this.reactRoot, this.target); 
+
     }
     private removeSumOfPrefix(columnName: string): string {
       return columnName.replace(/^sum of /i, '');

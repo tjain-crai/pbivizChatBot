@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-require('dotenv').config()
+// require('dotenv').config()
 
 interface Message {
   user: string;
@@ -17,7 +17,7 @@ interface Props {
     measures: any[];
     categoryColumns: string[];
     measureColumns: string[];
-  };
+  } | null; // Allow tableData to be null to render the pbiviz initially
 }
 
 
@@ -26,11 +26,11 @@ interface State {
   inputValue: string;
 }
 
-const apiKey = "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";
+const apiKey = "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";
 
 // const apiKey = process.env.REACT_APP_API_KEY;
 
-console.log("hello " + process.env.REACT_APP_API_KEY)
+// console.log("hello " + process.env.REACT_APP_API_KEY)
 
 export default class ReactChatbot extends React.Component<Props, State> {
   
@@ -52,7 +52,12 @@ export default class ReactChatbot extends React.Component<Props, State> {
     const { inputValue } = this.state;
 
     const { tableData } = this.props;
-
+    
+    if (!tableData) {
+      // Display a message when tableData is null i.e analyst didnt add data to the pbiviz
+      this.addBotMessage('Please contact CRA to load the backend data for your analysis');
+      return;
+    }
 
     // Associate measures with their corresponding columns
     // const measureColumnData = tableData.measureColumns.reduce((acc, column, index) => {
@@ -165,5 +170,11 @@ export default class ReactChatbot extends React.Component<Props, State> {
       </div>
     );
   }
-  
+  private addBotMessage(text: string) {
+    // Function to add a bot message to the chat if data has not be loaded by the analyst before sending to the client
+    this.setState(prevState => ({
+      messages: [...prevState.messages, { user: 'user', text: prevState.inputValue }, { user: 'bot', text }],
+      inputValue: '',
+    }));
+  }  
 }

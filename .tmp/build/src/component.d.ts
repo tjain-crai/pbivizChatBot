@@ -10,7 +10,7 @@ interface Props {
         measures: any[];
         categoryColumns: string[];
         measureColumns: string[];
-    };
+    } | null;
 }
 interface State {
     messages: Message[];
@@ -21,5 +21,6 @@ export default class ReactChatbot extends React.Component<Props, State> {
     sendMessage: () => Promise<void>;
     onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     render(): React.JSX.Element;
+    private addBotMessage;
 }
 export {};
