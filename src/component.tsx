@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-require('dotenv').config()
+// require('dotenv').config()
 
 interface Message {
   user: string;
@@ -26,7 +26,7 @@ interface State {
   inputValue: string;
 }
 
-const apiKey = "sk-";
+const apiKey = "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";
 
 // const apiKey = process.env.REACT_APP_API_KEY;
 
@@ -41,7 +41,7 @@ export default class ReactChatbot extends React.Component<Props, State> {
         { user: 'bot', text: 'Hello! I am your Viz chatbot. Ask me anything related to the data.' }
       ],
       inputValue: '',
-    };
+    }
 
     this.sendMessage = this.sendMessage.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
@@ -52,6 +52,9 @@ export default class ReactChatbot extends React.Component<Props, State> {
     const { inputValue } = this.state;
 
     const { tableData } = this.props;
+    
+    // Prevent sending empty messages
+    if (!inputValue.trim()) return;
 
     // Display a message when tableData is null i.e analyst didnt add data to the pbiviz
     if (!tableData) {
@@ -138,6 +141,7 @@ export default class ReactChatbot extends React.Component<Props, State> {
   onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ inputValue: event.target.value });
   };
+
 
   render() {
     const { messages, inputValue } = this.state;
