@@ -11,9 +11,13 @@ var pbivizChatBot1627AB145BED4838AEED523084597B28_DEBUG;
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7294);
 
-const apiKey = "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";
+const apiKey = "";
 // const apiKey = process.env.REACT_APP_API_KEY;
 // console.log("hello " + process.env.REACT_APP_API_KEY)
+// Define TemporaryMessage component
+const TemporaryMessage = ({ message }) => {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "temporary-message" }, message));
+};
 class ReactChatbot extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     constructor(props) {
         super(props);
@@ -22,6 +26,7 @@ class ReactChatbot extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
                 { user: 'bot', text: 'Hello! I am your Viz chatbot. Ask me anything related to the data.' }
             ],
             inputValue: '',
+            showMessage: false, // Track whether to show the temporary message
         };
         this.sendMessage = this.sendMessage.bind(this);
         this.onInputChange = this.onInputChange.bind(this);
@@ -31,8 +36,13 @@ class ReactChatbot extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
         const { inputValue } = this.state;
         const { tableData } = this.props;
         // Prevent sending empty messages
-        if (!inputValue.trim())
+        if (!inputValue.trim()) {
+            this.setState({ showMessage: true }); // Show the temporary message
+            setTimeout(() => {
+                this.setState({ showMessage: false }); // Hide the temporary message after a few seconds
+            }, 3000); // Adjust the duration as needed
             return;
+        }
         // Display a message when tableData is null i.e analyst didnt add data to the pbiviz
         if (!tableData) {
             this.addBotMessage('Please contact CRA to load the backend data for your analysis');
@@ -109,7 +119,7 @@ class ReactChatbot extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
         this.setState({ inputValue: event.target.value });
     };
     render() {
-        const { messages, inputValue } = this.state;
+        const { messages, inputValue, showMessage } = this.state;
         return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "chatbot-container" },
             react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "messages" }, messages.map((message, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { key: index, className: `message ${message.user}` },
                 message.user === 'bot' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "bot-message" },
@@ -118,6 +128,7 @@ class ReactChatbot extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
                 message.user === 'user' && message.text)))),
             react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "input-container" },
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { className: "input", value: inputValue, onChange: this.onInputChange }),
+                showMessage && react__WEBPACK_IMPORTED_MODULE_0__.createElement(TemporaryMessage, { message: "Please type a message to continue" }),
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", { className: "send-button", onClick: this.sendMessage }, "Send"))));
     }
     addBotMessage(text) {

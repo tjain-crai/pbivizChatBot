@@ -24,13 +24,24 @@ interface Props {
 interface State {
   messages: Message[];
   inputValue: string;
+  showMessage: boolean; // Add the showMessage property here
 }
 
-const apiKey = "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";
+const apiKey = "";
 
 // const apiKey = process.env.REACT_APP_API_KEY;
 
 // console.log("hello " + process.env.REACT_APP_API_KEY)
+
+// Define TemporaryMessage component
+const TemporaryMessage: React.FC<{ message: string }> = ({ message }) => {
+  return (
+    <div className="temporary-message">
+      {message}
+    </div>
+  );
+};
+
 
 export default class ReactChatbot extends React.Component<Props, State> {
   
@@ -41,6 +52,7 @@ export default class ReactChatbot extends React.Component<Props, State> {
         { user: 'bot', text: 'Hello! I am your Viz chatbot. Ask me anything related to the data.' }
       ],
       inputValue: '',
+      showMessage: false, // Track whether to show the temporary message
     }
 
     this.sendMessage = this.sendMessage.bind(this);
@@ -54,7 +66,13 @@ export default class ReactChatbot extends React.Component<Props, State> {
     const { tableData } = this.props;
     
     // Prevent sending empty messages
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim()) {
+      this.setState({ showMessage: true }); // Show the temporary message
+      setTimeout(() => {
+        this.setState({ showMessage: false }); // Hide the temporary message after a few seconds
+      }, 3000); // Adjust the duration as needed
+      return;
+    }
 
     // Display a message when tableData is null i.e analyst didnt add data to the pbiviz
     if (!tableData) {
@@ -144,7 +162,7 @@ export default class ReactChatbot extends React.Component<Props, State> {
 
 
   render() {
-    const { messages, inputValue } = this.state;
+    const { messages, inputValue, showMessage } = this.state;
   
     return (
       <div className="chatbot-container">
@@ -167,6 +185,7 @@ export default class ReactChatbot extends React.Component<Props, State> {
             value={inputValue}
             onChange={this.onInputChange}
           />
+          {showMessage && <TemporaryMessage message="Please type a message to continue" />}
           <button className="send-button" onClick={this.sendMessage}>
             Send
           </button>

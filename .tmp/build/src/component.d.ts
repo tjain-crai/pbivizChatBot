@@ -15,6 +15,7 @@ interface Props {
 interface State {
     messages: Message[];
     inputValue: string;
+    showMessage: boolean;
 }
 export default class ReactChatbot extends React.Component<Props, State> {
     constructor(props: Props);

@@ -133,6 +133,28 @@
   transform: scale(0.8);
   box-shadow: 0 0 5px black;
 }
+.temporary-message {
+  position: absolute;
+  left: 50%;
+  /* Center the message horizontally */
+  transform: translateX(-50%);
+  /* Center the message horizontally */
+  background-color: rgba(0, 0, 0, 0.1);
+  /* Hazy background color with some transparency */
+  border-radius: 5px;
+  /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  /* Box shadow effect */
+  padding: 5px 10px;
+  z-index: 1;
+  /* Ensure the message appears above other elements */
+  margin-top: -80px;
+  /* Adjust this value to position the message above the input */
+  width: calc(100% - 66px);
+  /* Adjust the width to match the width of the input box */
+  text-align: center;
+  /* Center-align text within the message box */
+}
 
 
 /*# sourceMappingURL=https://localhost:8080/assets/visual.css.map*/
